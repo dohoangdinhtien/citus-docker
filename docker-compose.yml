@@ -6,10 +6,8 @@ services:
   master:
     container_name: "${COMPOSE_PROJECT_NAME:-citus}_master"
     image: "citusdata/citus:13.0.1"
-    ports: ["${COORDINATOR_EXTERNAL_PORT:-5432}:5432"]
+    ports: ["${COORDINATOR_EXTERNAL_PORT:-5432}:15432"]
     labels: ["com.citusdata.role=Master"]
-    ports:
-      - "5432:15432"
     environment: &AUTH
       POSTGRES_USER: "${POSTGRES_USER:-postgres}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -22,8 +20,6 @@ services:
     depends_on: [manager]
     environment: *AUTH
     command: "/wait-for-manager.sh"
-    ports:
-      - "5432:15432"
     volumes:
       - healthcheck-volume:/healthcheck
   manager:
