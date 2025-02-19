@@ -9,7 +9,7 @@ services:
     ports: ["${COORDINATOR_EXTERNAL_PORT:-5432}:5432"]
     labels: ["com.citusdata.role=Master"]
     ports:
-      - "5432":"15432"
+      - "5432:15432"
     environment: &AUTH
       POSTGRES_USER: "${POSTGRES_USER:-postgres}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -23,7 +23,7 @@ services:
     environment: *AUTH
     command: "/wait-for-manager.sh"
     ports:
-      - "5432":"15433"
+      - "5432:15432"
     volumes:
       - healthcheck-volume:/healthcheck
   manager:
