@@ -1,0 +1,15 @@
+# This file is auto generated from it's template,
+# see citusdata/tools/packaging_automation/templates/docker/latest/docker-compose.tmpl.yml.
+version: "3"
+
+services:
+  worker:
+    image: "citusdata/citus:13.0.1"
+    labels: ["com.citusdata.role=Worker"]
+    container_name: "${COMPOSE_PROJECT_NAME:-citus}_master"
+    ports: ["${COORDINATOR_EXTERNAL_PORT:-15433}:5432"]
+    environment: *AUTH
+    volumes:
+      - healthcheck-volume:/healthcheck
+volumes:
+  healthcheck-volume:
