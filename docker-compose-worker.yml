@@ -6,9 +6,14 @@ services:
   worker:
     image: "citusdata/citus:13.0.1"
     labels: ["com.citusdata.role=Worker"]
-    container_name: "${COMPOSE_PROJECT_NAME:-citus}_master"
+    container_name: "${COMPOSE_PROJECT_NAME:-citus}_worker"
     ports: ["${COORDINATOR_EXTERNAL_PORT:-15433}:5432"]
-    environment: *AUTH
+    environment: &AUTH
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      PGUSER: "${POSTGRES_USER:-postgres}"
+      PGPASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_HOST_AUTH_METHOD: "${POSTGRES_HOST_AUTH_METHOD:-trust}"
     volumes:
       - healthcheck-volume:/healthcheck
 volumes:
