@@ -17,6 +17,7 @@ services:
   worker:
     image: "citusdata/citus:13.0.1"
     labels: ["com.citusdata.role=Worker"]
+    ports: ["${COORDINATOR_EXTERNAL_WORKER_PORT:-15434}:5432"]
     depends_on: [manager]
     environment: *AUTH
     command: "/wait-for-manager.sh"
